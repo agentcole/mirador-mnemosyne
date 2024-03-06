@@ -6,11 +6,6 @@ export async function saveCollection(uuid, workspace, annotations, apiUrl) {
   const url = `${apiUrl || API_BASE_URL}&uuid=${uuid}`;
   const res = await fetch(url, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-special-auth": "test-auth-hash-c0df086e-b363-4626-a2cc-9bb6e3048180",
-    },
-    mode: "cors",
     body: JSON.stringify({ workspace, annotations }),
   });
   const json = await res.json();
