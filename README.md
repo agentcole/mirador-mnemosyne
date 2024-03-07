@@ -2,7 +2,7 @@
 
 ## Libs
 
-### Custom Mirador version for video annotations 
+### Custom Mirador version for video annotations
 [https://dzkimgs.l.u-tokyo.ac.jp/videos/m3/video_inapage.html]
 
 ### Mirador Annotations: Custom modification for video annotations
@@ -19,27 +19,28 @@ Custom tools for AdA
 
 ### Install dependencies for each folder
 ```sh
+cd ../mirador
+npm install  --legacy-peer-deps
+npm run build
+npm run build:es
 cd ada-tools
-npm install
+npm install  --legacy-peer-deps
 npm run build
 cd ../mirador-image-tools
-npm install
-npm run build
-cd ../mirador
-npm install
+npm install  --legacy-peer-deps
 npm run build
 cd ../mirador-integration-master
-npm install
-npm run build
-cd ../mirador-integration-master
-npm install
+npm install  --legacy-peer-deps
 npm run webpack
 ```
 
-Webpack: 
+Webpack:
 ```sh
 cd mirador-integration-master
 npm run webpack # minified build is in webpack/ folder
+
+# or for deployment
+npm run webpack -- --env.deployment=/typo3conf/ext/va_mirador/Resources/Public/JavaScript/`git log --format='%H' -1`/
 ```
 
 If you want to build each library separately run
