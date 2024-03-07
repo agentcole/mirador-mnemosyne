@@ -2,7 +2,7 @@
 
 ## Libs
 
-### Custom Mirador version for video annotations
+### Custom Mirador version for video annotations
 [https://dzkimgs.l.u-tokyo.ac.jp/videos/m3/video_inapage.html]
 
 ### Mirador Annotations: Custom modification for video annotations

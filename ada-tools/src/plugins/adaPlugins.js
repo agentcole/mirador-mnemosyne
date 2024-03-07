@@ -64,8 +64,8 @@ export default [
       position: "bottom", // You can choose 'bottom', 'left', 'right', 'top' based on your requirements
     },
     mapStateToProps: (state, { windowId }) => ({
-      windowConfig: getWindowConfig(state, { windowId }) || {},
-      exportState: getExportableState(state) || {},
+      windowConfig: getWindowConfig(state, { windowId }) || {},
+      exportState: getExportableState(state) || {},
     }),
   },
   // Color picker

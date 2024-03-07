@@ -3,7 +3,7 @@ import { API_BASE_URL } from "./config";
 export function getWorkspaceConfig() {}
 
 export async function saveCollection(uuid, workspace, annotations, apiUrl) {
-  const url = `${apiUrl || API_BASE_URL}${uuid ? `&uuid=${uuid}` : ''}`;
+  const url = `${apiUrl || API_BASE_URL}${uuid ? `&uuid=${uuid}` : ''}`;
   const res = await fetch(url, {
     method: "POST",
     body: JSON.stringify({ workspace, annotations }),
