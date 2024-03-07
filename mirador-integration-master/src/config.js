@@ -1,7 +1,6 @@
 import LocalStorageAdapter from "../../mirador-annotations-0.5.0/es/LocalStorageAdapter";
 
-export const API_BASE_URL =
-  "https://digitalartsarchive.at/?id=169&controller=Collections";
+export const API_BASE_URL = document.getElementById("demo").dataset['miradorCollectionApi'];
 
 /**
  * Default config for initialization
