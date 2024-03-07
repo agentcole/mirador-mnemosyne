@@ -3,7 +3,7 @@ import { API_BASE_URL } from "./config";
 export function getWorkspaceConfig() {}
 
 export async function saveCollection(uuid, workspace, annotations, apiUrl) {
-  const url = `${apiUrl || API_BASE_URL}&uuid=${uuid}`;
+  const url = `${apiUrl || API_BASE_URL}${uuid ? `&uuid=${uuid}` : ''}`;
   const res = await fetch(url, {
     method: "POST",
     body: JSON.stringify({ workspace, annotations }),
@@ -12,7 +12,7 @@ export async function saveCollection(uuid, workspace, annotations, apiUrl) {
 }
 
 export async function getCollection(uuid, apiUrl) {
-  const url = `${apiUrl || API_BASE_URL}&uuid=${uuid}&select=annotations,workspace,collection`;
+  const url = `${apiUrl || API_BASE_URL}${uuid ? `&uuid=${uuid}` : ''}&select=annotations,workspace,collection`;
   const res = await fetch(url);
   return await res.json();
 }
