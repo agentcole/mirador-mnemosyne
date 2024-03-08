@@ -6,6 +6,12 @@ export async function saveCollection(uuid, workspace, annotations, apiUrl) {
   const url = `${apiUrl || API_BASE_URL}${uuid ? `&uuid=${uuid}` : ''}`;
   const res = await fetch(url, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    mode: "same-origin",
+    credentials: "same-origin",
     body: JSON.stringify({ workspace, annotations }),
   });
   const json = await res.json();
@@ -13,7 +19,13 @@ export async function saveCollection(uuid, workspace, annotations, apiUrl) {
 
 export async function getCollection(uuid, apiUrl) {
   const url = `${apiUrl || API_BASE_URL}${uuid ? `&uuid=${uuid}` : ''}&select=annotations,workspace,collection`;
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    headers: {
+      "Accept": "application/json"
+    },
+    mode: "same-origin",
+    credentials: "same-origin",
+  });
   return await res.json();
 }
 
