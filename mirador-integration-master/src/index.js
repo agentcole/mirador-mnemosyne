@@ -8,47 +8,61 @@ import {
 import { defaultConfig, themeConfig } from "./config";
 import { getCollection } from "./utils";
 
+const COLLECTION_API = document.getElementById("demo").dataset.miradorCollectionApi;
+const MANIFEST_PREFIX = document.getElementById("demo").dataset.miradorManifestPrefix;
+
 export const loadMiradorWorkspaceCollection = async (collectionId) => {
-  const apiUrl = document.getElementById("demo").dataset.miradorCollectionApi;
-  const { workspace, windows, collection, annotations } = await getCollection(
+  const data = await getCollection(
     collectionId,
-    apiUrl
+    COLLECTION_API
   );
-  const manifestKeys = Object.keys(workspace.windows);
 
-  loadCustomAnnotations(annotations);
+  if (data.workspace) {
+    const workspace = data.workspace;
+    const manifestKeys = Object.keys(workspace.windows);
 
-  const config = {
-    ...defaultConfig,
-    // Workspace 'elastic' or 'mosaic'
-    workspace: {
-      type: workspace.workspace.type || "elastic",
-      viewportPosition: workspace.workspace.viewportPosition,
-    },
-    viewers: workspace.viewers,
-    windows: manifestKeys.map((id) => {
-      console.info(workspace.viewers[id]);
+    if (data.annotations)
+      loadCustomAnnotations(annotations);
 
-      return {
-        imageToolsEnabled: true,
-        imageToolsOpen: false,
-        manifestId: workspace.windows[id].manifestId,
-        id: workspace.windows[id].id,
-        collectionIndex: workspace.windows[id].collectionIndex,
-        canvasId: workspace.windows[id].canvasId,
-        // thumbnailNavigationPosition: 'far-bottom', // If a video or multiple entries
-      };
-    }),
-    ...themeConfig,
-  };
+    const config = {
+      ...defaultConfig,
+      // Workspace 'elastic' or 'mosaic'
+      workspace: {
+        type: workspace.workspace.type || "elastic",
+        viewportPosition: workspace.workspace.viewportPosition,
+      },
+      viewers: workspace.viewers,
+      windows: manifestKeys.map((id) => {
+        console.info(workspace.viewers[id]);
 
-  const miradorInstance = mirador.viewer(config, [
-    ...annotationPlugins,
-    ...miradorImageToolsPlugin,
-    ...AdaPlugins,
-  ]);
+        return {
+          imageToolsEnabled: true,
+          imageToolsOpen: false,
+          manifestId: workspace.windows[id].manifestId,
+          id: workspace.windows[id].id,
+          collectionIndex: workspace.windows[id].collectionIndex,
+          canvasId: workspace.windows[id].canvasId,
+          // thumbnailNavigationPosition: 'far-bottom', // If a video or multiple entries
+        };
+      }),
+      ...themeConfig,
+    };
 
-  updateViewers(workspace, manifestKeys, miradorInstance);
+    const miradorInstance = mirador.viewer(config, [
+      ...annotationPlugins,
+      ...miradorImageToolsPlugin,
+      ...AdaPlugins,
+    ]);
+
+    updateViewers(workspace, manifestKeys, miradorInstance);
+  } else if (Array.isArray(data.collection)) {
+    let manifests = data.collection.map(e => {
+      if (Number.isInteger(e)) {
+        return `${MANIFEST_PREFIX}${e}`;
+      }
+    });
+    loadManifest(manifests);
+  }
 };
 
 // Updating all positions because mirador doesn't work well with elastic view
@@ -112,9 +126,7 @@ function loadMirador() {
   switch (mode) {
     case "collection":
       const collectionId = params.id;
-      if (collectionId) {
-        loadMiradorWorkspaceCollection(collectionId);
-      }
+      loadMiradorWorkspaceCollection(collectionId);
       break;
     case "manifest":
       const manifestList = params.manifests ? params.manifests.split(",") : [];
