@@ -13,10 +13,9 @@ import mirador from "../../../mirador/dist/es/src/index";
 import annotationPlugins from "../../src";
 import LocalStorageAdapter from "../../src/LocalStorageAdapter";
 import { miradorImageToolsPlugin } from "../../../mirador-image-tools/es/index";
-// import { AdaPlugins } from "../../../../../dev-ada-mirador/ada-mirador-plugins/ada-tools/lib";
-// import { getCollection, parseHashParameters } from "../../../../../dev-ada-mirador/ada-mirador-plugins/ada-tools/src/plugins/utils";
 import { AdaPlugins } from "../../../ada-tools/lib";
-import { getCollection, parseHashParameters } from "../../../ada-tools/src/plugins/utils";
+import { parseHashParameters } from "../../../ada-tools/src/plugins/utils";
+import { getCollection } from "../../../mirador-integration-master/src/utils";
 
 export const loadMiradorWorkspaceCollection = async (collectionId) => {
   const {
