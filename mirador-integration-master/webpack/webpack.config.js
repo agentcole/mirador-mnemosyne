@@ -1,13 +1,13 @@
 const path = require('path');
 
-module.exports = env => {
-  let basename = path.join('dist', env.deployment ? path.basename(env.deployment) : '');
+module.exports = deployment => {
+  let basename = path.join('dist', deployment ? path.basename(deployment) : '');
   return {
     entry: './src/index.js',
     output: {
       filename: 'main.js',
       path: path.resolve(__dirname, basename),
-      publicPath: env.deployment || './dist/',
+      publicPath: deployment || './dist/',
     },
   };
 };
