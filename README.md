@@ -89,7 +89,7 @@ cd mirador-integration-master
 npm run webpack # minified build is in webpack/ folder
 
 # or for deployment
-npm run webpack -- --deployment=/typo3conf/ext/va_mirador/Resources/Public/JavaScript/`git log --format='%H' -1`/
+npm exec webpack -- --config webpack/webpack.config.js --env.deployment=/typo3conf/ext/va_mirador/Resources/Public/JavaScript/`git log --format='%H' -1`/
 ```
 
 
