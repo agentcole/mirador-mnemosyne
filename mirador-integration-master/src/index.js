@@ -116,7 +116,12 @@ function loadManifest(manifestList) {
       workspace: { type: "mosaic" },
       windows: manifestList.map((item) => ({ manifestId: item })),
     },
-  });
+  },[
+
+    ...annotationPlugins,
+    ...miradorImageToolsPlugin,
+    ...AdaPlugins,
+  ]);
 }
 
 function loadMirador() {
