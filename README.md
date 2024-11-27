@@ -92,6 +92,15 @@ npm run webpack # minified build is in webpack/ folder
 npm exec webpack -- --config webpack/webpack.config.js --env.deployment=/typo3conf/ext/va_mirador/Resources/Public/JavaScript/`git log --format='%H' -1`/
 ```
 
+### Docker Build
+```sh
+# setup build with versionated folder
+docker compose build --build-args=DEPLOYMENT=/dist/`git log --format='%H' -1`
+
+# use docker compose to extract files to ./dist
+docker compose up -d
+```
+
 
 ## Usage
 
