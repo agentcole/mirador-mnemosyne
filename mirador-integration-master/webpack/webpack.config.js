@@ -1,13 +1,13 @@
 const path = require('path');
 
 module.exports = (env, args) => {
-  let basename = path.join('dist', env.deployment ? path.basename(env.deployment) : '');
   return {
     entry: './src/index.js',
+    mode: env.deployment ? 'production' : 'development',
     output: {
       filename: 'main.js',
-      path: path.resolve(__dirname, basename),
-      publicPath: env.deployment || './dist/',
+      path: path.join(process.cwd(), 'dist/[hash]'),
+      publicPath: env.deployment + '/[hash]'
     },
   };
 };

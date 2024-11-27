@@ -1,0 +1,11 @@
+services:
+  build-mirador:
+    build:
+      context: .
+      args: 
+        - DEPLOYMENT=/dist/mirador
+    volumes:
+      - type: bind
+        source: ./dist
+        target: /dist
+    command: cp -r /build/mirador-integration-master/dist /dist

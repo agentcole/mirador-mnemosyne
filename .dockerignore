@@ -1,0 +1,10 @@
+.git
+.github
+*/es/
+*/lib/
+*/umd/
+*/node_modules/
+*/dist/
+*/demo/
+*/webpack/dist/
+!/dist
