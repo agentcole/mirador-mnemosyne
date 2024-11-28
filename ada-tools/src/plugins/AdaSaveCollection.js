@@ -8,8 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import IconButton from "@material-ui/core/IconButton";
 import SaveIcon from "@material-ui/icons/Save";
-import {  parseHashParameters } from "./utils";
-import { saveCollection } from "../../../mirador-integration-master/src/utils";
+import { saveCollection, parseHashParameters } from "../../../mirador-annotations-0.5.0/demo/src/utils";
 
 export const AdaSaveCollection = ({ windowConfig, exportState }) => {
   const [open, setOpen] = useState(false);

@@ -5,6 +5,5 @@
 */umd/
 */node_modules/
 */dist/
-*/demo/
 */webpack/dist/
 !/dist

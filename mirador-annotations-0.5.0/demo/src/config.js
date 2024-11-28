@@ -1,4 +1,4 @@
-import LocalStorageAdapter from "../../mirador-annotations-0.5.0/es/LocalStorageAdapter";
+import LocalStorageAdapter from "../../src/LocalStorageAdapter";
 
 export const API_BASE_URL = document.getElementById("demo").dataset['miradorCollectionApi'];
 

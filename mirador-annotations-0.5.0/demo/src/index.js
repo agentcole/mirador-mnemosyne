@@ -1,34 +1,26 @@
-/* eslint-disable no-case-declarations */
-/* eslint-disable implicit-arrow-linebreak */
-/* eslint-disable max-len */
-/* eslint-disable sort-keys */
-/* eslint-disable comma-dangle */
-/* eslint-disable no-shadow */
-/* eslint-disable no-unused-vars */
-/* eslint-disable quotes */
-/* eslint-disable no-undef */
-/* eslint-disable require-jsdoc */
 // Updated custom mirador dist with video annotations
 import mirador from "../../../mirador/dist/es/src/index";
 import annotationPlugins from "../../src";
 import LocalStorageAdapter from "../../src/LocalStorageAdapter";
 import { miradorImageToolsPlugin } from "../../../mirador-image-tools/es/index";
-// import { AdaPlugins } from "../../../../../dev-ada-mirador/ada-mirador-plugins/ada-tools/lib";
-// import { getCollection, parseHashParameters } from "../../../../../dev-ada-mirador/ada-mirador-plugins/ada-tools/src/plugins/utils";
 import { AdaPlugins } from "../../../ada-tools/lib";
-import { parseHashParameters } from "../../../ada-tools/src/plugins/utils";
-import { getCollection } from "../../../mirador-integration-master/src/utils";
+
+import { getCollection, parseHashParameters } from "./utils";
+import { defaultConfig, themeConfig } from "./config";
 
 export const loadMiradorWorkspaceCollection = async (collectionId) => {
+  const apiUrl = document.getElementById("demo").dataset.miradorCollectionApi;
+  const MANIFEST_PREFIX = document.getElementById("demo").dataset.miradorManifestPrefix;
+
   const {
     workspace, windows, collection, annotations
   } = await getCollection(
-    collectionId
+    collectionId,
+    apiUrl
   );
   const manifestKeys = Object.keys(workspace.windows);
 
   loadCustomAnnotations(annotations);
-  // TODO: add conditions
 
   const config = {
     ...defaultConfig,
@@ -62,54 +54,6 @@ export const loadMiradorWorkspaceCollection = async (collectionId) => {
 
   updateViewers(workspace, manifestKeys, miradorInstance);
 };
-
-export const themeConfig = {
-  theme: {
-    palette: {
-      primary: {
-        main: "#1967d2",
-      },
-    },
-  },
-};
-
-export const defaultConfig = {
-  id: "demo",
-  annotation: {
-    adapter: (canvasId) =>
-      new LocalStorageAdapter(`localStorage://?canvasId=${canvasId}`),
-    exportLocalStorageAnnotations: true, // display annotation JSON export button
-  },
-  window: {
-    // Annotation plugins
-    // defaultSideBarPanel: "annotations",
-    // defaultSideBarPanel: "info",
-    // sideBarOpenByDefault: true,
-    sideBarOpenByDefault: false,
-    // hideSearchPanel: false,
-    // hideWindowTitle: true,
-    // hideAnnotationsPanel: true,
-    allowClose: true,
-    allowMaximize: false,
-    allowFullscreen: true,
-  },
-  videoOptions: {
-    // Additional props passed to <audio> element
-    // controls: true,
-    crossOrigin: "anonymous",
-  },
-  workspace: {
-    type: "elastic",
-  },
-  workspaceControlPanel: {
-    enabled: true,
-    // enabled: false, // Configure if the control panel should be rendered.  Useful if you want to lock the viewer down to only the configured manifests
-  },
-};
-
-export const loadMiradorManifestHash = (manifestIds) => {};
-
-export const loadMiradorInstance = (config) => {};
 
 // Updating all positions because mirador doesn't work well with elastic view
 export const updateViewers = (workspace, manifestKeys, miradorInstance) => {
@@ -146,7 +90,6 @@ export const updateViewers = (workspace, manifestKeys, miradorInstance) => {
 };
 
 export const loadCustomAnnotations = (annotations) => {
-  console.log("annotations", annotations);
   // localStorage.clear();
   annotations.forEach((annotation) => {
     localStorage.setItem(annotation.id, JSON.stringify(annotation));
@@ -155,7 +98,15 @@ export const loadCustomAnnotations = (annotations) => {
 
 function loadManifest(manifestList) {
   console.log(`Loading manifest with list: ${manifestList}`);
-  const miradorInstance = mirador.viewer(defaultConfig, [
+  // Load manifest logic here
+
+  const miradorInstance = mirador.viewer({
+    ...defaultConfig,
+    ...{
+      workspace: { type: "mosaic" },
+      windows: manifestList.map((item) => ({ manifestId: item })),
+    },
+  }, [
     ...annotationPlugins,
     ...miradorImageToolsPlugin,
     ...AdaPlugins,
@@ -167,24 +118,25 @@ function loadMirador() {
   const { mode } = params;
 
   switch (mode) {
-    case 'collection':
+    case "collection":
       const collectionId = params.id;
       if (collectionId) {
         loadMiradorWorkspaceCollection(collectionId);
       }
       break;
-    case 'manifest':
-      const manifestList = params.manifests ? params.manifests.split(',') : [];
+    case "manifest":
+      const manifestList = params.manifests ? params.manifests.split(",") : [];
+      console.log("MANIFESTS", manifestList);
       loadManifest(manifestList);
       break;
-    case 'preview':
+    case "preview":
       // Handle preview mode
       break;
-    case 'share':
+    case "share":
       // Handle share mode
       break;
     default:
-      console.log('Unknown mode or no mode specified');
+      console.info("Unknown mode or no mode specified");
   }
 }
 loadMirador();

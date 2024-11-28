@@ -62,11 +62,6 @@ npm install
 npm run build
 npm run build:es
 
-# Install mirador annotations
-cd ../mirador-annotations-0.5.0/
-npm install --legacy-peer-deps
-npm run build 
-
 # Install ada tools
 cd ../ada-tools/
 npm install
@@ -77,23 +72,18 @@ cd ../mirador-image-tools
 npm install
 npm run build
 
-# Warning: Set ENV for deployment
-cd ../mirador-integration-master
-npm install
-npm run webpack
-```
+# Install mirador annotations and use as build
+cd ../mirador-annotations-0.5.0/
+npm install --legacy-peer-deps
+npm run build 
 
-Webpack:
-```bash
-cd mirador-integration-master
-npm run webpack # minified build is in webpack/ folder
-
-# or for deployment
-npm exec webpack -- --config webpack/webpack.config.js --env.deployment=/typo3conf/ext/va_mirador/Resources/Public/JavaScript/`git log --format='%H' -1`/
 ```
 
 ### Docker Build
 ```sh
+# With .env config
+API_URL=http://myapi.com TITLE="My Viewer" docker-compose up
+
 # setup build with versionated folder
 docker compose build --build-args=DEPLOYMENT=/dist/`git log --format='%H' -1`
 

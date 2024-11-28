@@ -1,11 +1,15 @@
 services:
   build-mirador:
+    platform: linux/amd64
     build:
       context: .
       args: 
         - DEPLOYMENT=/dist/mirador
+    environment:
+      - API_URL=${API_URL}
+      - TITLE=${TITLE}
     volumes:
       - type: bind
         source: ./dist
         target: /dist
-    command: cp -r /build/mirador-integration-master/dist /dist
+    command: cp -r /build/mirador-annotations-0.5.0/demo/dist /dist

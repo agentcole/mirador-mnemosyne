@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "build": "nwb build-react-component",
+    "build:custom": "npm run build && node demo/src/custom-build.js",
     "clean": "nwb clean-module && nwb clean-demo",
     "lint": "eslint ./src ./__tests__",
     "prepublishOnly": "npm run build",
