@@ -1,6 +1,7 @@
     Collection Mode:
         URL Example: https://example.com/#mode=collection&id=1234
         Here, the mode is 'collection', and there's an additional 'id' parameter.
+        id=0 is a sepecial collection guaranteed to exist.
 
     Preview Mode:
         URL Example: https://example.com/#mode=preview&otherParam=value

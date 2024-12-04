@@ -81,14 +81,15 @@ npm run build
 
 ### Docker Build
 ```sh
-# With .env config
-API_URL=http://myapi.com TITLE="My Viewer" docker-compose up
-
-# setup build with versionated folder
-docker compose build --build-args=DEPLOYMENT=/dist/`git log --format='%H' -1`
+# setup build with versioned DEPLOYMENT folder, terminate with slash!
+# API_URL and MANIFEST_URL is optional, only relevant for index.html
+docker compose build \
+    --build-arg=DEPLOYMENT=/dist/mirador-`git log --format='%H' -1`/ \
+    --build-arg=API_URL="https://myapi.com" \
+    --build-arg=MANIFEST_URL="https://example.com/iiif/object/"
 
 # use docker compose to extract files to ./dist
-docker compose up -d
+docker compose up
 ```
 
 

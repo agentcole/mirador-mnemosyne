@@ -1,12 +1,12 @@
 import LocalStorageAdapter from "../../src/LocalStorageAdapter";
 
-export const API_BASE_URL = document.getElementById("demo").dataset['miradorCollectionApi'];
+export const API_BASE_URL = document.getElementById("mirador").dataset['miradorCollectionApi'];
 
 /**
  * Default config for initialization
  */
 export const defaultConfig = {
-  id: "demo",
+  id: "mirador",
   annotation: {
     adapter: (canvasId) =>
       new LocalStorageAdapter(`localStorage://?canvasId=${canvasId}`),

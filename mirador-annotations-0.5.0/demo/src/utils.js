@@ -10,8 +10,8 @@ export async function saveCollection(uuid, workspace, annotations, apiUrl) {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     },
-    mode: 'same-origin',
-    credentials: 'same-origin',
+    mode: 'cors',
+    credentials: 'include',
     body: JSON.stringify({ workspace, annotations }),
   });
   const json = await res.json();
@@ -23,8 +23,8 @@ export async function getCollection(uuid, apiUrl) {
     headers: {
       'Accept': 'application/json',
     },
-    mode: 'same-origin',
-    credentials: 'same-origin',
+    mode: 'cors',
+    credentials: 'include',
   });
   return await res.json();
 }

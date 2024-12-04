@@ -4,12 +4,23 @@ services:
     build:
       context: .
       args: 
-        - DEPLOYMENT=/dist/mirador
-    environment:
-      - API_URL=${API_URL}
-      - TITLE=${TITLE}
+        # webpath for resulting artifacts
+        # slash must terminate path
+        DEPLOYMENT: /dist/mirador/
+        API_URL: http://localhost:5000
+        MANIFEST_URL: https://example.com/iiif/object/
     volumes:
+        # bind /dist to output folder
       - type: bind
         source: ./dist
         target: /dist
-    command: cp -r /build/mirador-annotations-0.5.0/demo/dist /dist
+    environment:
+      # user id of owner
+      UID: 1000
+      # group id of owner
+      GID: 1000
+    command: >
+      sh -c "
+        cp -r /build/mirador-annotations-0.5.0/dist/ /dist &&\
+        chown -R $${UID}:$${GID} /dist
+      "
