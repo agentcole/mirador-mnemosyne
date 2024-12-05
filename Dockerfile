@@ -1,15 +1,15 @@
 FROM node:16-alpine
 
-# web root
-ARG DEPLOYMENT=/dist/mirador
+# path relative to web root
+# slash must terminate path
+ARG DEPLOYMENT=/dist/mirador/
 
-# Add before npm install
-RUN apk add --no-cache chromium
+# api URL in demo $DEPLOYMENY/index.html
+ARG API_URL=http://localhost:5000
 
-# Set Puppeteer to use system Chrome
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
-ENV PHANTOMJS_SKIP_DOWNLOAD=true
+# prefix for manifest url to convert object numbers to manifest
+# slash must terminate path!
+ARG MANIFEST_URL="https://example.com/iiif/object/"
 
 # npm wants to build canvas from souce
 RUN apk add --update --no-cache \
@@ -43,11 +43,11 @@ RUN npm install --no-audit && npm run build
 WORKDIR /build/mirador-image-tools
 RUN npm install --no-audit && npm run build
 
-ARG API_URL
-ENV API_URL=$API_URL
-
-ARG TITLE
-ENV TITLE=$TITLE
-
 WORKDIR /build/mirador-annotations-0.5.0 
-RUN npm install --no-audit --legacy-peer-deps && API_URL=$API_URL TITLE=$TITLE npm run build:custom
+# deploymeny path for 
+RUN npm install --no-audit --legacy-peer-deps &&\
+    npm exec nwb -- build-react-app \
+        --webpack.publicPath="$DEPLOYMENT" \
+        --webpack.html.templateParameters.apiURL="$API_URL" \
+        --webpack.html.templateParameters.mainifestURL="$MANIFEST_URL" &&\
+    echo $DEPLOYMENT > dist/webpath.txt

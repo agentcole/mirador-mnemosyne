@@ -30,7 +30,7 @@ export const AdaSaveCollection = ({ windowConfig, exportState }) => {
     try {
       const {id} = parseHashParameters(window.location.hash);
       console.log(id);
-      const apiUrl = document.getElementById('demo').dataset.miradorCollectionApi;
+      const apiUrl = document.getElementById('mirador').dataset.miradorCollectionApi;
       await saveCollection(id, exportState, annotations, apiUrl);
       alert('Saved');
     } catch(e) {
